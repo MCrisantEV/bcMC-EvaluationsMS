@@ -5,6 +5,7 @@ El Microservicio Evaluations, contiene varias APIs las cuales devuelven un archi
 - API saveEvaluation
 - API findStudent
 - API findCourse
+- API findCourseStudent
 - API updateEvaluation
 - API deleteEvaluation
 

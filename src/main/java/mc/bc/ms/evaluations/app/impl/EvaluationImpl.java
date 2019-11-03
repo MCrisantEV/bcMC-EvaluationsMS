@@ -42,6 +42,21 @@ public class EvaluationImpl implements EvaluationService {
 		}
 	}
 	
+	@Override
+	public Mono<Evaluation> findCourseStudent(String idCourse, String idStudent) {
+		return evaRep.findByIdCourseAndIdStudent(idCourse, idStudent);
+	}
+
+	@Override
+	public Flux<Evaluation> findStudent(String idStudent) {
+		return evaRep.findByIdStudent(idStudent);
+	}
+
+	@Override
+	public Flux<Evaluation> findCourse(String idCourse) {
+		return evaRep.findByIdCourse(idCourse);
+	}
+	
 	private Mono<Map<String, Object>> errors(Evaluation objec) {
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		Errors errors = new BeanPropertyBindingResult(objec, Evaluation.class.getName());
