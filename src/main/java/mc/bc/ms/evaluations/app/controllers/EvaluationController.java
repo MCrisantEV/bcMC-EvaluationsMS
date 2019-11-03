@@ -3,6 +3,7 @@ package mc.bc.ms.evaluations.app.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,5 +47,10 @@ public class EvaluationController {
 	@PutMapping("/{id}")
 	public Mono<Map<String, Object>> editEvaluation(@PathVariable String id, @RequestBody Evaluation evaluation){
 		return evaServ.updateEvaluation(id, evaluation);
+	}
+	
+	@DeleteMapping("/{id}")
+	public Mono<Map<String, Object>> removeEvaluation(@PathVariable String id){
+		return evaServ.deleteEvaluation(id);
 	}
 }

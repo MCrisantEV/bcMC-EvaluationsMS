@@ -17,5 +17,7 @@ public interface EvaluationService {
 	public Flux<Evaluation> findCourse(String idCourse);
 
 	public Mono<Map<String, Object>> updateEvaluation(String id, Evaluation evaluation);
+	
+	public Mono<Map<String, Object>> deleteEvaluation(String id);
 
 }

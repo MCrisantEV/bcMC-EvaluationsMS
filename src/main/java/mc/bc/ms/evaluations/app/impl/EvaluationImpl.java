@@ -69,12 +69,25 @@ public class EvaluationImpl implements EvaluationService {
 				respuesta.put("Mensaje", "Se actualizaron las evaluaicones con éxito.");
 				return respuesta;
 			}).switchIfEmpty(Mono.just(evaluation).map(ev -> {
-				respuesta.put("Error", "No tiene evaluaciones registradas.");
+				respuesta.put("Error", "No se puede actualizar, No tiene evaluaciones registradas.");
 				return respuesta;
 			}));
 		}else {
 			return errors(evaluation);
 		}
+	}
+	
+	@Override
+	public Mono<Map<String, Object>> deleteEvaluation(String id) {
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		return evaRep.findById(id).map(dbe -> {
+			evaRep.delete(dbe).subscribe();
+			respuesta.put("Mensaje", "Se eliminaron las evaluaicones con éxito.");
+			return respuesta;
+		}).switchIfEmpty(Mono.just("").map(er -> {
+			respuesta.put("Error", "No se puede eliminar, no tiene evaluaciones registradas.");
+			return respuesta;
+		}));
 	}
 	
 	private Mono<Map<String, Object>> errors(Evaluation objec) {
