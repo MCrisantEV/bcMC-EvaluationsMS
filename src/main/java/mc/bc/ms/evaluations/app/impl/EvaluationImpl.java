@@ -57,6 +57,26 @@ public class EvaluationImpl implements EvaluationService {
 		return evaRep.findByIdCourse(idCourse);
 	}
 	
+	@Override
+	public Mono<Map<String, Object>> updateEvaluation(String id, Evaluation evaluation) {
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		evaluation.setIdCourse(id);
+		evaluation.setIdStudent(id);
+		if (errors(evaluation) == null) {
+			return evaRep.findById(id).map(dbe -> {
+				dbe.setListEvaluation(evaluation.getListEvaluation());
+				evaRep.save(dbe).subscribe();
+				respuesta.put("Mensaje", "Se actualizaron las evaluaicones con éxito.");
+				return respuesta;
+			}).switchIfEmpty(Mono.just(evaluation).map(ev -> {
+				respuesta.put("Error", "No tiene evaluaciones registradas.");
+				return respuesta;
+			}));
+		}else {
+			return errors(evaluation);
+		}
+	}
+	
 	private Mono<Map<String, Object>> errors(Evaluation objec) {
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		Errors errors = new BeanPropertyBindingResult(objec, Evaluation.class.getName());
@@ -87,4 +107,5 @@ public class EvaluationImpl implements EvaluationService {
 
 		return null;
 	}
+
 }
