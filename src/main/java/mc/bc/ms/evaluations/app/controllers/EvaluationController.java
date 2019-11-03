@@ -1,10 +1,16 @@
 package mc.bc.ms.evaluations.app.controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mc.bc.ms.evaluations.app.models.Evaluation;
 import mc.bc.ms.evaluations.app.services.EvaluationService;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/evaluations")
@@ -13,4 +19,8 @@ public class EvaluationController {
 	@Autowired
 	private EvaluationService evaServ;
 	
+	@PostMapping
+	public Mono<Map<String, Object>> createEvaluation(@RequestBody Evaluation evaluation){
+		return evaServ.saveEvaluation(evaluation);
+	}
 }
